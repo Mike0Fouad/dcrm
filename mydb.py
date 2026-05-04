@@ -1,4 +1,4 @@
-
+# Runs only 1 time
 import mysql.connector
 
 database = mysql.connector.connect(
