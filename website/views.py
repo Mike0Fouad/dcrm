@@ -5,7 +5,7 @@ from .forms import SignUpForm, AddRecordForm
 from .models import Record
 
 
-
+# Home Page View
 def home(request):
     #check to see if user is logging in
     records = Record.objects.all()
@@ -25,13 +25,13 @@ def home(request):
         return render(request, 'home.html',{'records':records})
 
 
-
+# Logout User
 def logout_user(request):
     logout(request)
     messages.success(request, "You have been logged out!")
     return redirect('home')
 
-
+# Register User
 def register_user(request):
     if request.method =='POST':
         form = SignUpForm(request.POST)
@@ -50,6 +50,7 @@ def register_user(request):
         return render(request, 'register.html',{'form':form})
     return render(request, 'register.html',{'form':form})
 
+# Customer Record View
 def customer_record(request, pk):
     if request.user.is_authenticated:
         customer_record = Record.objects.get(id=pk)
@@ -58,6 +59,7 @@ def customer_record(request, pk):
         messages.error(request, "You must be logged in to view that page...")
         return redirect('home')
 
+# Delete Record View
 def delete_record(request, pk):
     if request.user.is_authenticated:
         delete_it = Record.objects.get(id=pk)
@@ -67,7 +69,8 @@ def delete_record(request, pk):
     else:
         messages.error(request, "You must be logged in to do that...")
         return redirect('home')
-    
+
+# Add Record View
 def add_record(request):
     form = AddRecordForm(request.POST or None)
     if request.user.is_authenticated:
@@ -83,6 +86,7 @@ def add_record(request):
 
     return render(request, 'add_record.html',{'form':form})
 
+# Update Record View
 def update_record(request, pk):
     if request.user.is_authenticated:
         current_record = Record.objects.get(id=pk)
